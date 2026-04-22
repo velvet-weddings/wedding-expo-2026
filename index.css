@@ -134,12 +134,11 @@ video {
 .main-content {
     position: relative;
     min-height: 100vh;
-    /* Reset intro flex/padding layout */
     padding: 0;
     display: block;
     text-align: left;
     background: var(--bg-dark);
-    overflow-x: clip; /* clip ≠ hidden: does NOT create a BFC, so position:sticky works on descendants */
+    overflow-x: clip; 
     /* Reveal transition */
     opacity: 0;
     transform: translateY(16px);
@@ -1862,19 +1861,15 @@ video {
     cursor: pointer;
     z-index: 9999; /* Ultra high to be above everything */
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    opacity: 0;
-    visibility: hidden;
+    opacity: 1;
+    visibility: visible;
+    bottom: 12px;
+    right: 12px;
+    z-index: 10001; /* Above everything to hide watermarks */
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
-
-.wc-music-btn.visible {
-    opacity: 1;
-    visibility: visible;
-}
-
-.wc-music-btn:hover {
     transform: scale(1.08);
     background: rgba(198, 169, 122, 0.15);
     border-color: var(--gold);
@@ -1904,31 +1899,6 @@ video {
 }
 
 
-.wc-lang-btn {
-    position: fixed;
-    bottom: 88px;
-    right: 28px;
-    z-index: 9999;
-    background: rgba(197, 164, 109, 0.15);
-    border: 1px solid var(--gold-border);
-    border-radius: 50px;
-    color: var(--gold);
-    font-family: var(--font-ui);
-    font-size: 0.62rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    padding: 0.45rem 0.85rem;
-    cursor: pointer;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
-    white-space: nowrap;
-}
-.wc-lang-btn:hover {
-    background: rgba(197, 164, 109, 0.28);
-    border-color: var(--gold-border-hover);
-    transform: translateY(-2px);
-}
 .wc-lang-btn.lang-ar {
     font-family: var(--font-arabic);
     letter-spacing: 0;
@@ -1954,48 +1924,7 @@ html[lang="ar"] body {
 html[lang="ar"] .wc-proposal__nav {
     right: auto;
     left: max(1.25rem, env(safe-area-inset-left, 1.25rem));
-}
-html[lang="ar"] .wc-music-btn {
-    right: auto;
-    left: 28px;
-}
-html[lang="ar"] .wc-lang-btn {
-    right: auto;
-    left: 28px;
-    font-family: var(--font-arabic);
-    letter-spacing: 0;
-}
-html[lang="ar"] .wc-timeline__item {
-    flex-direction: row-reverse;
-}
-html[lang="ar"] .wc-timeline__line {
-    right: 0;
-    left: auto;
-}
-html[lang="ar"] .wc-proposal__chapter-label,
-html[lang="ar"] .wc-proposal__headline,
-html[lang="ar"] .wc-proposal__script-line,
-html[lang="ar"] .wc-proposal__subtitle,
-html[lang="ar"] .wc-proposal__body-text,
-html[lang="ar"] .wc-proposal__experience-label,
-html[lang="ar"] .wc-welcome__title,
-html[lang="ar"] .wc-welcome__text,
-html[lang="ar"] .wc-programme__script-title,
-html[lang="ar"] .wc-programme__date,
-html[lang="ar"] .wc-section-header__eyebrow,
-html[lang="ar"] .wc-section-header__title,
-html[lang="ar"] .wc-footer__tagline,
-html[lang="ar"] .wc-footer__date {
-    font-family: var(--font-arabic);
-}
-html[lang="ar"] .wc-proposal__headline,
-html[lang="ar"] .wc-proposal__script-line {
-    font-style: normal;
-}
-@media (max-width: 480px) {
-    html[lang="ar"] .wc-music-btn { left: 20px; right: auto; }
-    html[lang="ar"] .wc-lang-btn  { left: 20px; right: auto; }
-}
+
 
 /* ══ OUTRO OVERLAY ═══════════════════════════════════════ */
 .wc-outro {

@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const introStage      = document.getElementById('intro-stage');
     const introVideo      = document.getElementById('intro-video');
-    const announcementStage = document.getElementById('announcement-stage');
     const overlay         = document.getElementById('interaction-overlay');
     const bloom           = document.getElementById('transition-bloom');
     const mainContent     = document.getElementById('main-content');
@@ -54,11 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 bloom.style.opacity = '0';
                 mainContent.classList.add('visible');
-                
-                // Show mute button when main content is revealed
-                setTimeout(() => {
-                    bgMusicToggle.classList.add('visible');
-                }, 1000);
             }, 100);
         }, 600);
     };
@@ -99,21 +93,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Use a single click listener for highest compatibility
-    overlay.addEventListener('click', startIntro);
+    if (overlay) {
+        overlay.addEventListener('click', startIntro);
+    }
 
-    // 4. Background Music Fade & Controls
-    if (bgMusic) {
-        // Smooth 5-second Fade Out before ending
-        bgMusic.addEventListener('timeupdate', () => {
-            const timeLeft = bgMusic.duration - bgMusic.currentTime;
-            if (timeLeft <= 5 && timeLeft > 0) {
-                // Linear volume ramp down
-                bgMusic.volume = Math.max(0, timeLeft / 5);
-            }
-        });
-
-        // Mute Toggle Handler
-        bgMusicToggle.addEventListener('click', () => {
+    // Mute Toggle Handler
+    if (bgMusicToggle && bgMusic) {
+        bgMusicToggle.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent triggering other clicks
             const isMuted = !bgMusic.muted;
             bgMusic.muted = isMuted;
 
@@ -483,169 +470,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-/* ══════════════════════════════════════════════════════════
-   TRANSLATION ENGINE — English ↔ Arabic
-   ══════════════════════════════════════════════════════════ */
-const translations = {
-    en: {
-        tapToOpen:         'Tap to Open',
-        countdownEyebrow:  'COUNTING DOWN TO THE MAGIC',
-        days:              'DAYS',
-        hours:             'HOURS',
-        mins:              'MINS',
-        secs:              'SECS',
-        scrollToExplore:   'Scroll to explore',
-        welcomeTitle:      'Welcome!',
-        welcomeText:       'We warmly invite you to celebrate our wedding day with us in the beautiful city of Amman, Jordan.\nWe look forward to sharing this unforgettable moment with our most special people.',
-        dayProgramme:      'Day Programme',
-        eventDate:         '12 July 2026',
-        arrival:           'ARRIVAL',
-        fashionShow:       'FASHION SHOW',
-        makeupShow:        'MAKEUP & HAIR STYLING SHOW',
-        jewelryShow:       'JEWELRY SHOW',
-        entertainment:     'ENTERTAINMENT HIGHLIGHTS',
-        prizeDraw:         'EXCLUSIVE PRIZE DRAW',
-        weddingPackages:   'COMPREHENSIVE WEDDING PACKAGES',
-        forCouples:        'FOR LUCKY COUPLES',
-        swipe:             'SWIPE TO EXPLORE',
-        ch01:              'Chapter 01',
-        ch01Title:         'The Wedding Gallery <em>2026</em>',
-        ch01By:            'by tamara abdullah',
-        ch01Sub:           'In collaboration with the Princess Taghrid Institute for Development and Training',
-        ch02:              'Chapter 02',
-        aboutUsTitle:      'About Us:',
-        aboutUsText:       'The Wedding Gallery is a premier event platform organized by a professional team with extensive expertise in large-scale exhibitions, strategic partnerships, and luxury brand activation, with a dedicated focus on operational excellence and commercial impact.',
-        ch03:              'Chapter 03',
-        overviewTitle:     'Exhibition Overview:',
-        overviewText1:     'The Wedding Gallery 2026 is the ultimate destination for bridal excellence, bringing together the most prestigious names in bridal fashion, event planning, beauty, décor, and luxury services under one roof.',
-        overviewText2:     'Designed to inspire and connect future couples, the exhibition offers a unique experience that blends creativity with professional expertise. It features interactive displays, high-end fashion shows, and specialized exhibit halls.',
-        ch04:              'Chapter 04',
-        expLabel:          'Your Experience:',
-        expTitle:          'The Experience',
-        expText:           'An extraordinary journey where art meets elegance and distinction. Every detail is meticulously crafted to inspire you and turn the wedding of your dreams into a refined reality.',
-        venueName:         'Grand Views',
-        addressLine:       'Right Service Rd,',
-        addressRegion:     'Amman – Jordan',
-        rsvpEyebrow:       'We Hope to See You',
-        rsvpTitle:         'Kindly Reply',
-        nameLabel:         'Your Full Name',
-        namePlaceholder:   'Enter your name',
-        guestsLabel:       'Number of Guests',
-        guest1:            '1 Guest',
-        guest2:            '2 Guests',
-        guest3:            '3 Guests',
-        guest4:            '4+ Guests',
-        joinLabel:         'Will You Join Us?',
-        accept:            'Joyfully Accept',
-        decline:           'Regretfully Decline',
-        dietaryLabel:      'Dietary Requirements',
-        dietaryPlaceholder:'Any special dietary needs or notes...',
-        sendRsvp:          'Send RSVP',
-        successText:       'Thank you! We look forward to celebrating with you.',
-        footerTagline:     'With Love & Gratitude',
-        footerDate:        'July 12, 2026',
-    },
-    ar: {
-        tapToOpen:         'اضغط لفتح الدعوة',
-        countdownEyebrow:  'العدّ التنازلي نحو اللحظة السحرية',
-        days:              'أيام',
-        hours:             'ساعات',
-        mins:              'دقائق',
-        secs:              'ثوانٍ',
-        scrollToExplore:   'مرّر للاستكشاف',
-        welcomeTitle:      'أهلاً وسهلاً!',
-        welcomeText:       'يسعدنا دعوتكم للاحتفال معنا بهذه المناسبة الاستثنائية في مدينة عمّان الجميلة.\nنتطلع إلى مشاركة هذه اللحظة التي لا تُنسى مع أعزّ الناس على قلوبنا.',
-        dayProgramme:      'البرنامج اليومي',
-        eventDate:         '١٢ يوليو ٢٠٢٦',
-        arrival:           'الاستقبال',
-        fashionShow:       'عرض الأزياء',
-        makeupShow:        'عرض المكياج وتصفيف الشعر',
-        jewelryShow:       'عرض المجوهرات',
-        entertainment:     'فقرات الترفيه',
-        prizeDraw:         'السحب على الجوائز الحصرية',
-        weddingPackages:   'باقات الزفاف الشاملة',
-        forCouples:        'للأزواج المحظوظين',
-        swipe:             'اسحب للاستكشاف',
-        ch01:              'الفصل الأول',
-        ch01Title:         'معرض الزفاف <em>٢٠٢٦</em>',
-        ch01By:            'بقلم تمارا عبدالله',
-        ch01Sub:           'بالتعاون مع معهد الأميرة تغريد للتنمية والتدريب',
-        ch02:              'الفصل الثاني',
-        aboutUsTitle:      'من نحن:',
-        aboutUsText:       'معرض الزفاف هو منصة فعاليات رائدة، ينظّمها فريق احترافي يمتلك خبرة واسعة في المعارض الكبرى، والشراكات الاستراتيجية، وتفعيل العلامات التجارية الفاخرة، مع التركيز المستمر على التميّز التشغيلي والأثر التجاري.',
-        ch03:              'الفصل الثالث',
-        overviewTitle:     'نظرة عامة على المعرض:',
-        overviewText1:     'معرض الزفاف ٢٠٢٦ هو الوجهة الأمثل لروعة العرائس، حيث يجمع أرقى الأسماء في عالم الأزياء والتخطيط للحفلات والجمال والديكور والخدمات الفاخرة تحت سقف واحد.',
-        overviewText2:     'صُمّم المعرض لإلهام الأزواج المقبلين وتوحيد مساراتهم، إذ يقدّم تجربة فريدة تمزج الإبداع بالخبرة المهنية، من خلال عروض تفاعلية وعروض أزياء راقية وقاعات متخصصة.',
-        ch04:              'الفصل الرابع',
-        expLabel:          'تجربتكم:',
-        expTitle:          'التجربة',
-        expText:           'رحلة استثنائية حيث يلتقي الفن بالأناقة والتميّز. كل تفصيلة صُممت بعناية فائقة لتلهمكم وتحوّل زفافكم المنشود إلى واقعٍ مُعاش بكل رقيّ.',
-        venueName:         'غراند فيوز',
-        addressLine:       'طريق الخدمة الأيمن،',
-        addressRegion:     'عمّان – الأردن',
-        rsvpEyebrow:       'نأمل أن نراكم',
-        rsvpTitle:         'تفضّلوا بالرد',
-        nameLabel:         'الاسم الكامل',
-        namePlaceholder:   'أدخل اسمك',
-        guestsLabel:       'عدد الضيوف',
-        guest1:            'ضيف واحد',
-        guest2:            'ضيفان',
-        guest3:            '٣ ضيوف',
-        guest4:            '٤ ضيوف أو أكثر',
-        joinLabel:         'هل ستنضمون إلينا؟',
-        accept:            'بكل سرور',
-        decline:           'مع الأسف، لن أتمكن',
-        dietaryLabel:      'متطلبات غذائية خاصة',
-        dietaryPlaceholder:'أي احتياجات أو ملاحظات غذائية خاصة...',
-        sendRsvp:          'إرسال التأكيد',
-        successText:       'شكراً جزيلاً! نتطلع للاحتفال معكم.',
-        footerTagline:     'بكل المحبة والامتنان',
-        footerDate:        '١٢ يوليو ٢٠٢٦',
-    }
-};
 
-let currentLang = 'en';
-
-function applyTranslations(lang) {
-    const t = translations[lang];
-    const html = document.documentElement;
-
-    // Swap lang & dir on <html>
-    html.setAttribute('lang', lang);
-    html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-
-    // Update all tagged text elements
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.dataset.i18n;
-        if (t[key] !== undefined) {
-            el.innerHTML = t[key];
-        }
-    });
-
-    // Update placeholders
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.dataset.i18nPlaceholder;
-        if (t[key] !== undefined) {
-            el.setAttribute('placeholder', t[key]);
-        }
-    });
-
-    // Update toggle button label
-    const langBtn = document.getElementById('lang-toggle');
-    if (langBtn) {
-        langBtn.textContent = lang === 'ar' ? 'AR | EN' : 'EN | AR';
-        langBtn.classList.toggle('lang-ar', lang === 'ar');
-    }
-}
-
-// Wire up the button
-document.addEventListener('DOMContentLoaded', () => {
-    const langBtn = document.getElementById('lang-toggle');
-    if (langBtn) {
-        langBtn.addEventListener('click', () => {
-            currentLang = currentLang === 'en' ? 'ar' : 'en';
-            applyTranslations(currentLang);
-        });
-    }
-});
