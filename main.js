@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { overlay.style.display = 'none'; }, 400);
 
         const onVideoTimeUpdate = () => {
-            if (introVideo.currentTime >= 1.71) {
+            if (introVideo.currentTime >= 1.4) {
                 introVideo.removeEventListener('timeupdate', onVideoTimeUpdate);
                 triggerTransition();
             }
