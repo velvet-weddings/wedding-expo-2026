@@ -53,6 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 bloom.style.opacity = '0';
                 mainContent.classList.add('visible');
+
+                // Show mute button when main content is revealed
+                setTimeout(() => {
+                    bgMusicToggle.classList.add('visible');
+                }, 1000);
             }, 100);
         }, 600);
     };
@@ -85,11 +90,28 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.style.pointerEvents = 'none';
         setTimeout(() => { overlay.style.display = 'none'; }, 400);
 
+        const onVideoTimeUpdate = () => {
+            if (introVideo.currentTime >= 1.71) {
+                introVideo.removeEventListener('timeupdate', onVideoTimeUpdate);
+                triggerTransition();
+            }
+        };
+
+        // NEW: Ensure the poster only disappears when the video actually plays
         const onVideoPlay = () => {
             introVideo.removeEventListener('playing', onVideoPlay);
-            introVideo.addEventListener('ended', triggerTransition, { once: true });
+            overlay.style.opacity = '0';
+            overlay.style.pointerEvents = 'none';
+            setTimeout(() => { overlay.style.display = 'none'; }, 400);
+            
+            // Start listening for the transition point
+            introVideo.addEventListener('timeupdate', onVideoTimeUpdate);
         };
+        
         introVideo.addEventListener('playing', onVideoPlay);
+        
+        // Start the media
+        introVideo.play().catch(e => console.warn("Video Play Blocked", e));
     };
 
     // Use a single click listener for highest compatibility
