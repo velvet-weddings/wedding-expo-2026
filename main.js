@@ -26,11 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
         bgMusic.load();
     }
     
-    // ── Statue Trick: Play at zero speed to hide native play button ──
+    // Video remains permanently muted (since it has no sound)
+    introVideo.pause();
     introVideo.muted = true; 
     introVideo.currentTime = 0.1;
-    introVideo.playbackRate = 0; // Freeze it without showing the play icon
-    introVideo.play().catch(() => {}); // Start "playing" to hide UI
 
     // 2. Cinematic Flow: Direct Website Reveal after Video
     const triggerTransition = () => {
@@ -69,7 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const revealIntro = () => {
         if (revealTimer) clearTimeout(revealTimer);
-        introVideo.classList.add('ready');
+        // We keep the video hidden (opacity 0) to avoid the play button
+        // Only the overlay (button) becomes visible
         overlay.classList.add('ready');
         introVideo.removeEventListener('canplay', checkVideoReady);
         introVideo.removeEventListener('canplaythrough', checkVideoReady);
@@ -104,9 +104,18 @@ document.addEventListener('DOMContentLoaded', () => {
             bgMusic.play().catch(e => console.error("Music Play Failed:", e));
         }
 
+        // ── Safety Valve: Ensure Hero always appears ──
+        const safetyTransition = setTimeout(() => {
+            if (!transitionStarted) {
+                console.log("Safety Transition Triggered");
+                triggerTransition();
+            }
+        }, 2000); 
+
         const onVideoTimeUpdate = () => {
             if (introVideo.currentTime >= 1.4) {
                 introVideo.removeEventListener('timeupdate', onVideoTimeUpdate);
+                if (safetyTransition) clearTimeout(safetyTransition);
                 triggerTransition();
             }
         };
@@ -116,12 +125,15 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.style.pointerEvents = 'none';
         setTimeout(() => { overlay.style.display = 'none'; }, 400);
 
+        // Reveal and Play Video
+        introVideo.style.opacity = '0.9';
+        introVideo.play().catch(e => {
+            console.warn("Video Play Blocked", e);
+            triggerTransition(); // Instant reveal if blocked
+        });
+
         // Start listening for the transition point
         introVideo.addEventListener('timeupdate', onVideoTimeUpdate);
-        
-        // Restore play speed and start the intro video
-        introVideo.playbackRate = 1;
-        introVideo.play().catch(e => console.warn("Video Play Blocked", e));
     };
 
     // Use a single click listener for highest compatibility
