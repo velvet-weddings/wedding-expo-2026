@@ -74,6 +74,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: none !important; /* Remove any potential shadows */
 }
 
 video {
@@ -81,6 +82,8 @@ video {
     height: 100%;
     object-fit: cover;
     opacity: 0.9;
+    outline: none !important; /* Remove focus ring */
+    -webkit-tap-highlight-color: transparent; /* Remove mobile tap blue flash */
 }
 
 .interaction-overlay {
