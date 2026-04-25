@@ -26,10 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
         bgMusic.load();
     }
     
-    // Video remains permanently muted (since it has no sound)
-    introVideo.pause();
+    // ── Statue Trick: Play at zero speed to hide native play button ──
     introVideo.muted = true; 
-    introVideo.currentTime = 0.1; // Nudge to force render first frame
+    introVideo.currentTime = 0.1;
+    introVideo.playbackRate = 0; // Freeze it without showing the play icon
+    introVideo.play().catch(() => {}); // Start "playing" to hide UI
 
     // 2. Cinematic Flow: Direct Website Reveal after Video
     const triggerTransition = () => {
@@ -118,7 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Start listening for the transition point
         introVideo.addEventListener('timeupdate', onVideoTimeUpdate);
         
-        // Play the intro video
+        // Restore play speed and start the intro video
+        introVideo.playbackRate = 1;
         introVideo.play().catch(e => console.warn("Video Play Blocked", e));
     };
 
