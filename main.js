@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Video remains permanently muted (since it has no sound)
     introVideo.pause();
     introVideo.muted = true; 
-    introVideo.currentTime = 0;
+    introVideo.currentTime = 0.1; // Nudge to force render first frame
 
     // 2. Cinematic Flow: Direct Website Reveal after Video
     const triggerTransition = () => {
