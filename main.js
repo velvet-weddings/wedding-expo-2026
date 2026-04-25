@@ -18,8 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Freeze Loop: Keep video at start until clicked ──
     const freezeLoop = () => {
-        if (!hasStarted && introVideo.currentTime > 0.1) {
-            introVideo.currentTime = 0;
+        // Since the first 1.0s of the video is static, we loop the first 0.8s
+        // to keep the video "playing" (which hides the play button)
+        if (!hasStarted && introVideo.currentTime >= 0.8) {
+            introVideo.currentTime = 0.1; // Jump back to 0.1s for smoothness
         }
         if (!hasStarted) {
             requestAnimationFrame(freezeLoop);
@@ -90,7 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const onVideoTimeUpdate = () => {
-            if (introVideo.currentTime >= 1.4) {
+            // Added 1.0s to the timing because of the new static start
+            if (introVideo.currentTime >= 2.4) {
                 introVideo.removeEventListener('timeupdate', onVideoTimeUpdate);
                 triggerTransition();
             }
