@@ -60,7 +60,7 @@ body {
     position: fixed;
     inset: 0;
     z-index: 1000;
-    background: var(--bg-dark);
+    background: #fee2cf; /* Exact match for your envelope */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -81,9 +81,14 @@ video {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    opacity: 0; /* Hidden until ready */
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 0.8s ease;
+}
+
+video.ready {
     opacity: 0.9;
-    outline: none !important; /* Remove focus ring */
-    -webkit-tap-highlight-color: transparent; /* Remove mobile tap blue flash */
 }
 
 .interaction-overlay {
@@ -100,8 +105,15 @@ video {
     justify-content: center;
     cursor: pointer;
     z-index: 2000;
-    transition: opacity 0.4s ease;
+    opacity: 0; /* Hidden until video is ready */
+    pointer-events: none;
+    transition: opacity 0.8s ease;
     outline: none;
+}
+
+.interaction-overlay.ready {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .overlay-content {

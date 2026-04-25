@@ -63,32 +63,33 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 3. "Tap to Open" interaction
+    // ── Majestic Ready-State Logic ────────────────────
+    const checkVideoReady = () => {
+        // readyState 3+ means enough data is available to play
+        if (introVideo.readyState >= 3) {
+            introVideo.classList.add('ready');
+            overlay.classList.add('ready');
+            introVideo.removeEventListener('canplay', checkVideoReady);
+            introVideo.removeEventListener('canplaythrough', checkVideoReady);
+        }
+    };
+
+    introVideo.addEventListener('canplay', checkVideoReady);
+    introVideo.addEventListener('canplaythrough', checkVideoReady);
+    checkVideoReady(); // Immediate check
+
     const startIntro = () => {
+        if (hasStarted) return; 
         hasStarted = true;
 
-        console.log("Interaction detected. Activating media...");
-
-        // Prime secondary videos for mobile autoplay/low-power-mode bypass
+        // Prime secondary videos
         if (heroVideo) heroVideo.play().catch(() => {});
         if (featuredVideo) featuredVideo.play().catch(() => {});
 
-        // CRITICAL: Play both immediately. 
-        // Since Video is MUTED, the browser's "Activation Trust" is 100% focused on naming the BG Music.
+        // Music
         if (bgMusic) {
-            bgMusic.play().then(() => {
-                console.log("Music Playing Successfully");
-            }).catch(e => {
-                console.error("Music Play Failed:", e);
-            });
+            bgMusic.play().catch(e => console.error("Music Play Failed:", e));
         }
-
-        // Muted video play is almost always allowed instantly on click
-        introVideo.play().catch(e => console.warn("Video Play Blocked", e));
-
-        // UI Animations
-        overlay.style.opacity = '0';
-        overlay.style.pointerEvents = 'none';
-        setTimeout(() => { overlay.style.display = 'none'; }, 400);
 
         const onVideoTimeUpdate = () => {
             if (introVideo.currentTime >= 1.4) {
@@ -97,20 +98,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        // NEW: Ensure the poster only disappears when the video actually plays
-        const onVideoPlay = () => {
-            introVideo.removeEventListener('playing', onVideoPlay);
-            overlay.style.opacity = '0';
-            overlay.style.pointerEvents = 'none';
-            setTimeout(() => { overlay.style.display = 'none'; }, 400);
-            
-            // Start listening for the transition point
-            introVideo.addEventListener('timeupdate', onVideoTimeUpdate);
-        };
+        // UI Animations
+        overlay.style.opacity = '0';
+        overlay.style.pointerEvents = 'none';
+        setTimeout(() => { overlay.style.display = 'none'; }, 400);
+
+        // Start listening for the transition point
+        introVideo.addEventListener('timeupdate', onVideoTimeUpdate);
         
-        introVideo.addEventListener('playing', onVideoPlay);
-        
-        // Start the media
+        // Play the intro video
         introVideo.play().catch(e => console.warn("Video Play Blocked", e));
     };
 
