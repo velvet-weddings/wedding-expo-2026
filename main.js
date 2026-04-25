@@ -16,10 +16,26 @@ document.addEventListener('DOMContentLoaded', () => {
     let hasStarted        = false;
     let transitionStarted = false;
 
-    // ── Slow Motion Hack: Keep video "playing" but very slow to hide button ──
+    // ── Force Loop: Keep video at start and hidden play button ──
+    const freezeLoop = () => {
+        if (!hasStarted) {
+            // Loop the first 0.8s
+            if (introVideo.currentTime >= 0.8) {
+                introVideo.currentTime = 0.1;
+            }
+            // If the phone pauses it (hiding the button), try to play again
+            if (introVideo.paused) {
+                introVideo.play().catch(() => {});
+            }
+            requestAnimationFrame(freezeLoop);
+        }
+    };
+    
     introVideo.muted = true;
-    introVideo.playbackRate = 0.06; // Extremely slow (looks frozen)
-    introVideo.play().catch(() => {
+    introVideo.playbackRate = 1.0; // Normal speed
+    introVideo.play().then(() => {
+        requestAnimationFrame(freezeLoop);
+    }).catch(() => {
         console.warn("Autoplay blocked");
     });
 
