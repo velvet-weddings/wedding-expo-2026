@@ -64,15 +64,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. "Tap to Open" interaction
     // ── Majestic Ready-State Logic ────────────────────
+    const revealIntro = () => {
+        introVideo.classList.add('ready');
+        overlay.classList.add('ready');
+        introVideo.removeEventListener('canplay', checkVideoReady);
+        introVideo.removeEventListener('canplaythrough', checkVideoReady);
+        if (revealFallback) clearTimeout(revealFallback);
+    };
+
     const checkVideoReady = () => {
-        // readyState 3+ means enough data is available to play
         if (introVideo.readyState >= 3) {
-            introVideo.classList.add('ready');
-            overlay.classList.add('ready');
-            introVideo.removeEventListener('canplay', checkVideoReady);
-            introVideo.removeEventListener('canplaythrough', checkVideoReady);
+            revealIntro();
         }
     };
+
+    // Fallback: If the video takes too long (Stubborn mobile browser), force reveal after 2s
+    const revealFallback = setTimeout(() => {
+        console.log("Majestic Fallback Triggered");
+        revealIntro();
+    }, 2000);
 
     introVideo.addEventListener('canplay', checkVideoReady);
     introVideo.addEventListener('canplaythrough', checkVideoReady);
