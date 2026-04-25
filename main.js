@@ -16,25 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let hasStarted        = false;
     let transitionStarted = false;
 
-    // ── Freeze Loop: Keep video at start until clicked ──
-    const freezeLoop = () => {
-        // Since the first 1.0s of the video is static, we loop the first 0.8s
-        // to keep the video "playing" (which hides the play button)
-        if (!hasStarted && introVideo.currentTime >= 0.8) {
-            introVideo.currentTime = 0.1; // Jump back to 0.1s for smoothness
-        }
-        if (!hasStarted) {
-            requestAnimationFrame(freezeLoop);
-        }
-    };
-    
-    // Initialize the loop
+    // ── Slow Motion Hack: Keep video "playing" but very slow to hide button ──
     introVideo.muted = true;
-    introVideo.play().then(() => {
-        requestAnimationFrame(freezeLoop);
-    }).catch(() => {
-        // If autoplay is blocked, we still want to be ready
-        console.warn("Initial autoplay blocked");
+    introVideo.playbackRate = 0.06; // Extremely slow (looks frozen)
+    introVideo.play().catch(() => {
+        console.warn("Autoplay blocked");
     });
 
     // 2. Cinematic Flow: Direct Website Reveal after Video
