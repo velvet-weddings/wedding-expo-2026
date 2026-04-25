@@ -64,12 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. "Tap to Open" interaction
     // ── Majestic Ready-State Logic ────────────────────
+    let revealTimer = null; // Use let and declare early to prevent crashes
+
     const revealIntro = () => {
+        if (revealTimer) clearTimeout(revealTimer);
         introVideo.classList.add('ready');
         overlay.classList.add('ready');
         introVideo.removeEventListener('canplay', checkVideoReady);
         introVideo.removeEventListener('canplaythrough', checkVideoReady);
-        if (revealFallback) clearTimeout(revealFallback);
     };
 
     const checkVideoReady = () => {
@@ -78,11 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Fallback: If the video takes too long (Stubborn mobile browser), force reveal after 2s
-    const revealFallback = setTimeout(() => {
+    // Fallback: Force reveal after 2.5s if buffering is slow
+    revealTimer = setTimeout(() => {
         console.log("Majestic Fallback Triggered");
         revealIntro();
-    }, 2000);
+    }, 2500);
 
     introVideo.addEventListener('canplay', checkVideoReady);
     introVideo.addEventListener('canplaythrough', checkVideoReady);
