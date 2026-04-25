@@ -1105,6 +1105,124 @@ video {
     position: relative;
     z-index: 5;
     overflow: hidden;
+    min-height: 480px; /* Ensure consistent height */
+    display: flex;
+    flex-direction: column;
+}
+
+.wc-rsvp__success-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+    position: absolute;
+    inset: 0;
+    padding: 2.5rem 2rem;
+    background: inherit;
+    z-index: 6;
+}
+
+.wc-rsvp__success-card.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.wc-rsvp__success-card .wc-outro__title {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+}
+
+.wc-rsvp__success-card .wc-outro__subtitle {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--taupe);
+    margin-bottom: 1.5rem;
+}
+
+.wc-rsvp__success-card .wc-outro__message {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+}
+
+.wc-rsvp__success-card .wc-outro__sketch-container {
+    width: 100%;
+    height: 120px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.wc-rsvp__success-card .wc-outro__sketch {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+
+.wc-rsvp__success-card .wc-outro__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.wc-rsvp__success-card .wc-outro__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    padding: 1rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.wc-rsvp__success-card .wc-outro__btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    flex-shrink: 0;
+}
+
+.wc-rsvp__success-card .wc-outro__btn--gold {
+    background: linear-gradient(135deg, var(--gold), #b38d4f);
+    color: #fff !important; /* Force white text */
+    box-shadow: 0 10px 30px rgba(179, 141, 79, 0.2);
+    border: none;
+}
+
+.wc-rsvp__success-card .wc-outro__btn--outline {
+    background: transparent;
+    border: 1px solid var(--gold-border);
+    color: var(--taupe) !important;
+}
+
+.wc-rsvp__success-card .wc-outro__btn--gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(179, 141, 79, 0.35);
+}
+
+.wc-rsvp__success-card .wc-outro__btn--outline:hover {
+    background: rgba(198, 169, 122, 0.08);
+    border-color: var(--gold);
+    color: var(--gold) !important;
 }
 
 /* Decorative frame behind RSVP section */
@@ -1904,114 +2022,6 @@ video {
 }
 
 
-.wc-lang-btn.lang-ar {
-    font-family: var(--font-arabic);
-    letter-spacing: 0;
-}
-
-@media (max-width: 480px) {
-    .wc-lang-btn {
-        bottom: 74px;
-        right: 20px;
-        font-size: 0.58rem;
-        padding: 0.4rem 0.75rem;
-    }
-}
-
-
-/* ══ RTL ARABIC LAYOUT ═══════════════════════════════════ */
-html[lang="ar"] {
-    direction: rtl;
-}
-html[lang="ar"] body {
-    font-family: var(--font-arabic);
-}
-html[lang="ar"] .wc-proposal__nav {
-    right: auto;
-    left: max(1.25rem, env(safe-area-inset-left, 1.25rem));
-
-
-/* ══ OUTRO OVERLAY ═══════════════════════════════════════ */
-.wc-outro {
-    position: fixed;
-    inset: 0;
-    z-index: 10000;
-    background: var(--bg-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
-                visibility 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.wc-outro.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.wc-outro__bloom {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, #fff 0%, transparent 70%);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.wc-outro.active .wc-outro__bloom {
-    animation: outroBloom 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes outroBloom {
-    0%   { opacity: 0; transform: scale(0.5); }
-    30%  { opacity: 1; transform: scale(1.5); }
-    100% { opacity: 0; transform: scale(2.5); }
-}
-
-.wc-outro__content {
-    position: relative;
-    z-index: 2;
-    max-width: 440px; /* Narrower to look more like a card */
-    width: 92%;      /* Better mobile fit */
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid var(--gold-border);
-    border-radius: 35px;
-    padding: 0;
-    text-align: center;
-    box-shadow: 0 40px 120px rgba(131, 92, 52, 0.18);
-    transform: translateY(40px);
-    transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-    overflow: hidden;
-    margin: auto; /* Ensure it stays centered */
-}
-
-.wc-outro.active .wc-outro__content {
-    transform: translateY(0);
-}
-
-.wc-outro__sketch-container {
-    width: 100%;
-    height: 180px; /* Limited height to prevent stretching */
-    margin-bottom: 1.5rem;
-    background: rgba(131, 92, 52, 0.03);
-    border-bottom: 1px solid var(--gold-border);
-    overflow: hidden;
-}
-
-.wc-outro__sketch {
-    width: 100%;
-    height: 100%;
-    display: block;
-    mix-blend-mode: multiply;
-    object-fit: cover; /* Keeps it centered and elegant */
-    object-position: center 20%;
-    opacity: 0.9;
-}
 
 .wc-outro__text-block {
     padding: 0 2.25rem;
@@ -2055,13 +2065,13 @@ html[lang="ar"] .wc-proposal__nav {
     align-items: center;
     justify-content: center;
     gap: 0.8rem;
-    padding: 1.1rem;
-    border-radius: 12px;
+    padding: 0.9rem;
+    border-radius: 10px;
     text-decoration: none;
     font-family: var(--font-ui);
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     transition: all 0.3s ease;
 }
@@ -2088,45 +2098,3 @@ html[lang="ar"] .wc-proposal__nav {
     color: var(--taupe);
 }
 
-.wc-outro__btn--outline:hover {
-    background: rgba(198, 169, 122, 0.08);
-    border-color: var(--gold);
-    color: var(--gold);
-}
-
-.wc-outro__footer {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    opacity: 0.6;
-    padding: 0 2.5rem 3rem;
-}
-
-.wc-outro__initials {
-    font-family: var(--font-ui);
-    font-size: 0.9rem;
-    letter-spacing: 0.5em;
-    color: var(--gold);
-    text-indent: 0.5em;
-}
-
-.wc-outro__date {
-    font-family: var(--font-body);
-    font-size: 0.8rem;
-    color: var(--taupe);
-    font-style: italic;
-}
-
-@media (max-width: 480px) {
-    .wc-outro__content {
-        padding: 3rem 1.5rem 2.5rem;
-        margin: 1.25rem;
-    }
-    .wc-outro__title {
-        font-size: 2.8rem;
-    }
-    .wc-outro__btn {
-        padding: 1rem;
-        font-size: 0.72rem;
-    }
-}

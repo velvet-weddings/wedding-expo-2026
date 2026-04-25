@@ -439,30 +439,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // Trigger Outro Immediately
-                triggerOutro();
-
                 // Animate out form
-                rsvpForm.style.opacity   = '0';
-                rsvpForm.style.transform = 'scale(0.95)';
+                rsvpForm.style.opacity = '0';
+                rsvpForm.style.pointerEvents = 'none';
+                
                 setTimeout(() => {
                     rsvpForm.style.display = 'none';
+                    
+                    // Show success card
+                    const successCard = document.getElementById('rsvpSuccessCard');
+                    if (successCard) {
+                        successCard.removeAttribute('hidden');
+                        requestAnimationFrame(() => {
+                            successCard.classList.add('active');
+                        });
+                    }
                 }, 400);
-            });
-        }
-
-        // ── Cinematic Outro Reveal ────────────────────────
-        function triggerOutro() {
-            const outro = document.getElementById('outro-overlay');
-            if (!outro) return;
-
-            outro.style.display = 'flex';
-            outro.removeAttribute('hidden');
-            
-            // Allow display:flex to take effect before adding class
-            requestAnimationFrame(() => {
-                outro.classList.add('active');
-                outro.setAttribute('aria-hidden', 'false');
             });
         }
 
