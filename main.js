@@ -16,20 +16,24 @@ document.addEventListener('DOMContentLoaded', () => {
     let hasStarted        = false;
     let transitionStarted = false;
 
-    // 1. Media Initialization
-    if (bgMusic) {
-        bgMusic.pause();
-        bgMusic.currentTime = 0;
-        bgMusic.volume = 1;
-        bgMusic.muted = false;
-        // Ensure the audio is pre-loaded and ready for the tap
-        bgMusic.load();
-    }
+    // ── Freeze Loop: Keep video at start until clicked ──
+    const freezeLoop = () => {
+        if (!hasStarted && introVideo.currentTime > 0.1) {
+            introVideo.currentTime = 0;
+        }
+        if (!hasStarted) {
+            requestAnimationFrame(freezeLoop);
+        }
+    };
     
-    // Video remains permanently muted (since it has no sound)
-    introVideo.pause();
-    introVideo.muted = true; 
-    introVideo.currentTime = 0;
+    // Initialize the loop
+    introVideo.muted = true;
+    introVideo.play().then(() => {
+        requestAnimationFrame(freezeLoop);
+    }).catch(() => {
+        // If autoplay is blocked, we still want to be ready
+        console.warn("Initial autoplay blocked");
+    });
 
     // 2. Cinematic Flow: Direct Website Reveal after Video
     const triggerTransition = () => {
@@ -63,9 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 3. "Tap to Open" interaction
+    // 1. Media Initialization
+    if (bgMusic) {
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
+        bgMusic.volume = 1;
+        bgMusic.muted = false;
+        bgMusic.load();
+    }
+
     const startIntro = () => {
         if (hasStarted) return; 
-        hasStarted = true;
+        hasStarted = true; // This breaks the freezeLoop automatically
 
         // Prime secondary videos
         if (heroVideo) heroVideo.play().catch(() => {});
@@ -91,10 +104,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Start listening for the transition point
         introVideo.addEventListener('timeupdate', onVideoTimeUpdate);
         
-        // Play the intro video
+        // Play the intro video (loop was already broken by hasStarted = true)
+        introVideo.loop = false; // Turn off the loop
         introVideo.play().catch(e => {
             console.warn("Video Play Blocked", e);
-            triggerTransition(); // Instant reveal if blocked
+            triggerTransition(); 
         });
     };
 

@@ -60,7 +60,7 @@ body {
     position: fixed;
     inset: 0;
     z-index: 1000;
-    background: var(--bg-dark);
+    background: #fee2cf; /* Match your envelope exactly */
     display: flex;
     align-items: center;
     justify-content: center;
