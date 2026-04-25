@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Video remains permanently muted (since it has no sound)
     introVideo.pause();
     introVideo.muted = true; 
-    introVideo.currentTime = 0.1;
+    introVideo.currentTime = 0;
 
     // 2. Cinematic Flow: Direct Website Reveal after Video
     const triggerTransition = () => {
@@ -63,34 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 3. "Tap to Open" interaction
-    // ── Majestic Ready-State Logic ────────────────────
-    let revealTimer = null; // Use let and declare early to prevent crashes
-
-    const revealIntro = () => {
-        if (revealTimer) clearTimeout(revealTimer);
-        // We keep the video hidden (opacity 0) to avoid the play button
-        // Only the overlay (button) becomes visible
-        overlay.classList.add('ready');
-        introVideo.removeEventListener('canplay', checkVideoReady);
-        introVideo.removeEventListener('canplaythrough', checkVideoReady);
-    };
-
-    const checkVideoReady = () => {
-        if (introVideo.readyState >= 3) {
-            revealIntro();
-        }
-    };
-
-    // Fallback: Force reveal after 2.5s if buffering is slow
-    revealTimer = setTimeout(() => {
-        console.log("Majestic Fallback Triggered");
-        revealIntro();
-    }, 2500);
-
-    introVideo.addEventListener('canplay', checkVideoReady);
-    introVideo.addEventListener('canplaythrough', checkVideoReady);
-    checkVideoReady(); // Immediate check
-
     const startIntro = () => {
         if (hasStarted) return; 
         hasStarted = true;
@@ -104,18 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
             bgMusic.play().catch(e => console.error("Music Play Failed:", e));
         }
 
-        // ── Safety Valve: Ensure Hero always appears ──
-        const safetyTransition = setTimeout(() => {
-            if (!transitionStarted) {
-                console.log("Safety Transition Triggered");
-                triggerTransition();
-            }
-        }, 2000); 
-
         const onVideoTimeUpdate = () => {
             if (introVideo.currentTime >= 1.4) {
                 introVideo.removeEventListener('timeupdate', onVideoTimeUpdate);
-                if (safetyTransition) clearTimeout(safetyTransition);
                 triggerTransition();
             }
         };
@@ -125,15 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.style.pointerEvents = 'none';
         setTimeout(() => { overlay.style.display = 'none'; }, 400);
 
-        // Reveal and Play Video
-        introVideo.style.opacity = '0.9';
+        // Start listening for the transition point
+        introVideo.addEventListener('timeupdate', onVideoTimeUpdate);
+        
+        // Play the intro video
         introVideo.play().catch(e => {
             console.warn("Video Play Blocked", e);
             triggerTransition(); // Instant reveal if blocked
         });
-
-        // Start listening for the transition point
-        introVideo.addEventListener('timeupdate', onVideoTimeUpdate);
     };
 
     // Use a single click listener for highest compatibility
