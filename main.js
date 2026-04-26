@@ -441,16 +441,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const submitBtn = rsvpForm.querySelector('.wc-btn-submit');
                 const submitText = submitBtn ? submitBtn.querySelector('span') : null;
-                const originalText = submitText ? submitText.textContent : 'Send RSVP';
+                const originalText = submitText ? submitText.textContent : 'SEND';
 
                 // Validate name
                 const nameInput = rsvpForm.querySelector('#rsvpName');
+                const phoneInput = rsvpForm.querySelector('#rsvpPhone');
+
                 if (nameInput && !nameInput.value.trim()) {
                     nameInput.style.borderColor = 'rgba(220, 100, 80, 0.6)';
                     nameInput.focus();
-                    setTimeout(() => {
-                        nameInput.style.borderColor = '';
-                    }, 2000);
+                    setTimeout(() => { nameInput.style.borderColor = ''; }, 2000);
+                    return;
+                }
+
+                if (phoneInput && !phoneInput.value.trim()) {
+                    phoneInput.style.borderColor = 'rgba(220, 100, 80, 0.6)';
+                    phoneInput.focus();
+                    setTimeout(() => { phoneInput.style.borderColor = ''; }, 2000);
                     return;
                 }
 
