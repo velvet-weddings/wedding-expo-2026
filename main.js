@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // ── Simple Static Countdown ──────────────────────────
         (function initFlipClock() {
-            const FC_TARGET   = new Date('2026-07-12T18:00:00');
+            const FC_TARGET   = new Date('2026-05-14T18:00:00');
             const FC_UNITS    = ['days', 'hours', 'mins', 'secs'];
             const fcPrev      = { days: null, hours: null, mins: null, secs: null };
             const fcLive      = document.getElementById('fcLive');
