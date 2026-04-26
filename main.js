@@ -411,12 +411,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // ── RSVP Form ─────────────────────────────────────
         const rsvpForm    = document.getElementById('rsvpForm');
-        const rsvpSuccess = document.getElementById('rsvpSuccess');
+        const rsvpAttendance = document.getElementById('rsvpAttendance');
         const toggleBtns  = document.querySelectorAll('.wc-rsvp__toggle-btn');
 
         // Attend / Decline toggle
         toggleBtns.forEach(btn => {
             btn.addEventListener('click', () => {
+                const choice = btn.getAttribute('data-choice');
+                
+                // Update hidden input for Web3Forms
+                if (rsvpAttendance) {
+                    rsvpAttendance.value = choice;
+                }
+
+                // UI Update
                 toggleBtns.forEach(b => {
                     b.classList.remove('active');
                     b.setAttribute('aria-pressed', 'false');
@@ -428,8 +436,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Form submission
         if (rsvpForm) {
-            rsvpForm.addEventListener('submit', (e) => {
+            rsvpForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
+
+                const submitBtn = rsvpForm.querySelector('.wc-btn-submit');
+                const submitText = submitBtn ? submitBtn.querySelector('span') : null;
+                const originalText = submitText ? submitText.textContent : 'Send RSVP';
 
                 // Validate name
                 const nameInput = rsvpForm.querySelector('#rsvpName');
@@ -442,22 +454,47 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // Animate out form
-                rsvpForm.style.opacity = '0';
-                rsvpForm.style.pointerEvents = 'none';
-                
-                setTimeout(() => {
-                    rsvpForm.style.display = 'none';
-                    
-                    // Show success card
-                    const successCard = document.getElementById('rsvpSuccessCard');
-                    if (successCard) {
-                        successCard.removeAttribute('hidden');
-                        requestAnimationFrame(() => {
-                            successCard.classList.add('active');
-                        });
+                // Show loading state
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    if (submitText) submitText.textContent = 'Sending...';
+                }
+
+                try {
+                    const formData = new FormData(rsvpForm);
+                    const response = await fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        // Animate out form
+                        rsvpForm.style.opacity = '0';
+                        rsvpForm.style.pointerEvents = 'none';
+                        
+                        setTimeout(() => {
+                            rsvpForm.style.display = 'none';
+                            
+                            // Show success card
+                            const successCard = document.getElementById('rsvpSuccessCard');
+                            if (successCard) {
+                                successCard.removeAttribute('hidden');
+                                requestAnimationFrame(() => {
+                                    successCard.classList.add('active');
+                                });
+                            }
+                        }, 400);
+                    } else {
+                        throw new Error('Form submission failed');
                     }
-                }, 400);
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Something went wrong. Please try again or contact us directly.');
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        if (submitText) submitText.textContent = originalText;
+                    }
+                }
             });
         }
 

@@ -385,6 +385,11 @@
             </div>
             <div class="wc-rsvp__card reveal" id="rsvpCard">
                 <form class="wc-rsvp__form" id="rsvpForm" novalidate>
+                    <!-- Web3Forms Access Key -->
+                    <input type="hidden" name="access_key" value="33896cd6-cbf2-487a-8468-4751525b5a62">
+                    
+                    <!-- Hidden input to store the Accept/Decline choice -->
+                    <input type="hidden" name="attendance" id="rsvpAttendance" value="accept">
                     <div class="wc-form-group">
                         <label class="wc-form-group__label" for="rsvpName">Your Full Name</label>
                         <input class="wc-form-group__input" type="text" id="rsvpName" name="name" placeholder="Enter your name" autocomplete="name" required>
