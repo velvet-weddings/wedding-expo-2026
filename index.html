@@ -1,488 +1,719 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding Expo 2026 - Invitation</title>
-    <!-- Premium Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Great+Vibes&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="index.css?v=3.3">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Get In Loser - We're Having a Party</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@700&family=Epilogue:wght@800;900&family=Newsreader:wght@400&family=Orbitron:wght@700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#a8246b",
+                        "on-background": "#1c1b1b",
+                        "background": "#fcf9f8",
+                    },
+                    fontFamily: {
+                        "headline": ["Epilogue"],
+                        "body": ["Newsreader"],
+                        "timer": ["Orbitron"],
+                        "handwriting": ["Comic Sans MS", "cursive"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #E05297;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+            color: #1c1b1b;
+        }
+        
+        .scotch-tape {
+            background-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255,255,255,0.2);
+            clip-path: polygon(0 5%, 5% 0, 95% 5%, 100% 10%, 95% 90%, 100% 95%, 90% 100%, 10% 95%, 0 100%, 5% 90%);
+            z-index: 20;
+        }
+
+        .scrap-paper {
+            background-color: #fcf9f8;
+            box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+            border: 2px solid black;
+        }
+
+        .dymo-label {
+            background-color: black;
+            color: white;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 4px 12px;
+            box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3), inset -1px -1px 2px rgba(0,0,0,0.8), 4px 4px 0px rgba(0,0,0,1);
+            transform: rotate(-2deg);
+            display: inline-block;
+        }
+
+        .sharpie-underline {
+            position: relative;
+            display: inline-block;
+        }
+        .sharpie-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: -5%;
+            width: 110%;
+            height: 6px;
+            background-color: black;
+            transform: rotate(-1deg);
+            border-radius: 10px;
+            opacity: 0.8;
+        }
+
+        .video-hero-container {
+            position: relative;
+            transform: rotate(-1deg);
+            transition: transform 0.3s ease;
+        }
+        .video-hero-container:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .timeline-line {
+            width: 4px;
+            background: black;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            bottom: 0;
+            opacity: 0.8;
+        }
+        
+        .reveal-card {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal-card.visible {
+            opacity: 1;
+            transform: translateY(0) rotate(var(--rotation, 0deg));
+        }
+
+        /* Floating Doodles */
+        .doodle {
+            position: fixed;
+            pointer-events: auto;
+            z-index: 5;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            animation: float 4s ease-in-out infinite;
+        }
+        .doodle:hover {
+            transform: scale(1.5) rotate(20deg);
+            opacity: 1;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            width: 140px;
+            background: white;
+            border: 3px solid black;
+            box-shadow: 6px 6px 0px black;
+            padding: 10px;
+            transform: rotate(5deg);
+        }
+        /* Intro Overlay */
+        #intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            width: 100vw;
+            height: 100svh;
+            background: black;
+            z-index: 100000; /* Extremely high z-index */
+            overflow: hidden;
+            transition: opacity 1s ease-in-out;
+        }
+        #introVideo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 115%; /* Super Zoom to kill the bars */
+            min-height: 115%;
+            width: auto;
+            height: auto;
+            object-fit: cover;
+        }
+        #intro-overlay.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #startIntro {
+            position: absolute;
+            top: 85%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Wishes Wall */
+        #wishes-container {
+            background: white;
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+            border: 2px solid #000;
+            box-shadow: 10px 10px 0px black;
+            position: relative;
+            min-height: 200px;
+            transform: rotate(1deg);
+        }
+        .wish-entry {
+            border-bottom: 1px dashed #ccc;
+            padding: 10px 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Countdown Fix */
+        .countdown-item {
+            min-width: 50px !important;
+        }
+        @media (max-width: 640px) {
+            .countdown-grid {
+                gap: 0.25rem !important;
+                padding: 0 0.5rem;
+            }
+            .dymo-label {
+                font-size: 1.5rem !important;
+                padding: 0.5rem !important;
+                min-width: 50px !important;
+            }
+        }
+
+        /* Memories Swipe Fix */
+        .memories-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 20px;
+        }
+        .memories-scroll-inner {
+            display: flex;
+            gap: 20px;
+            padding: 0 20px;
+            width: fit-content;
+        }
+        .polaroid-item {
+            flex: 0 0 280px; /* Force every Polaroid to be 280px wide */
+            scroll-snap-align: center;
+        }
+
+        /* Timeline Heart Fixed/Absolute Hybrid */
+        .timeline-heart {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            transition: top 0.1s ease-out;
+        }
+    </style>
 </head>
-<body>
+<body class="min-h-screen pb-32 overflow-x-hidden">
 
-    <!-- Layer 1: Cinematic Intro Stage -->
-    <div id="intro-stage" class="intro-stage">
-        <div class="video-wrapper">
-            <video id="intro-video" autoplay muted playsinline webkit-playsinline loop preload="auto" width="100%" height="100%">
-                <source src="IMG_5506.MP4" type="video/mp4">
-            </video>
-
-            <button id="interaction-overlay" class="interaction-overlay" aria-label="Open Invitation">
-                <div class="overlay-content">
-                    <p class="tap-text">Tap to Open</p>
-                </div>
-            </button>
-        </div>
+    <!-- Intro Video Overlay -->
+    <div id="intro-overlay">
+        <video id="introVideo" class="w-screen h-screen object-cover" autoplay muted playsinline>
+            <source src="IMG_6882.MP4" type="video/mp4">
+        </video>
+        <button id="startIntro" class="absolute z-[10001] text-white font-headline font-black text-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] hover:text-pink-300 hover:scale-105 transition-all uppercase tracking-widest">
+            TAP TO OPEN
+        </button>
     </div>
 
+    <!-- Floating Doodles -->
+    <div class="doodle top-40 left-10 text-pink-400 select-none text-2xl" style="animation-delay: 0s;">✨</div>
+    <div class="doodle top-80 right-10 text-black select-none text-2xl" style="animation-delay: 1s;">💋</div>
+    <div class="doodle bottom-40 left-20 text-blue-400 select-none text-3xl" style="animation-delay: 2s;">⭐</div>
+    <div class="doodle top-1/2 right-20 text-pink-600 select-none text-4xl" style="animation-delay: 1.5s;">💖</div>
 
-    <!-- Transition Bloom Overlay -->
-    <div id="transition-bloom" class="transition-bloom"></div>
+    <!-- Music Player Scrap -->
+    <div class="music-player font-timer text-[10px]">
+        <div class="bg-zinc-200 h-16 mb-2 border-2 border-black flex items-center justify-center overflow-hidden relative">
+            <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+            <span class="z-10 text-zinc-600 uppercase tracking-tighter animate-pulse" id="musicStatus">PAUSED</span>
+        </div>
+        <div class="flex justify-between gap-2">
+            <button id="playBtn" class="flex-1 bg-black text-white p-2 border-2 border-black hover:bg-pink-600 active:translate-y-1">
+                <span class="material-symbols-outlined text-sm" id="playIcon">play_arrow</span>
+            </button>
+            <button id="muteBtn" class="flex-1 bg-white text-black p-2 border-2 border-black hover:bg-zinc-200 active:translate-y-1">
+                <span class="material-symbols-outlined text-sm" id="muteIcon">volume_up</span>
+            </button>
+        </div>
+        <audio id="bgMusic" loop preload="auto">
+            <source src="https://codeskulptor-demos.commondatastorage.googleapis.com/descent/background%20music.mp3" type="audio/mpeg">
+        </audio>
+    </div>
 
-    <!-- Layer 2: Main Web Content -->
-    <div id="main-content" class="main-content hidden">
+    <main class="pt-12 px-4 max-w-2xl mx-auto">
+        
+        <section class="mb-12 flex justify-center">
+            <div class="video-hero-container scrap-paper p-2 w-full max-w-md relative">
+                <div class="absolute -top-4 -left-6 w-24 h-8 scotch-tape rotate-[-15deg]"></div>
+                <div class="absolute -top-4 -right-6 w-24 h-8 scotch-tape rotate-[10deg]"></div>
+                <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-28 h-8 scotch-tape rotate-[-2deg]"></div>
+                
+                <video autoplay muted playsinline class="w-full h-auto border-2 border-black grayscale-[0.2] contrast-125 shadow-inner">
+                    <source src="IMG_5542.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                
+                <div class="p-4 bg-white border-t-2 border-black text-center">
+                    <p class="font-handwriting text-2xl text-blue-900 font-bold">Sophie's 21st Bash! ✨</p>
+                </div>
+            </div>
+        </section>
 
-        <!-- Floating Petals (populated by JS) -->
-        <div class="petals-container" id="petalsContainer" aria-hidden="true"></div>
-
-        <!-- ── HERO ─────────────────────────────────────────────── -->
-        <section class="wc-hero" id="wc-hero">
-            <video class="wc-hero__video" src="./IMG_5199.MP4" autoplay muted playsinline webkit-playsinline aria-label="Animated Wedding Invitation Hero"></video>
+        <section class="mb-20 flex flex-col items-center gap-6">
+            <h2 class="font-headline font-black text-white text-xl tracking-widest bg-black px-4 py-1 rotate-1">COUNTDOWN TO CHAOS</h2>
             
-            <div class="wc-countdown-simple reveal" role="timer" aria-label="Countdown to Wedding Expo 2026">
-                <p class="wc-countdown-simple__eyebrow">COUNTING DOWN TO THE MAGIC</p>
-                <div class="wc-countdown-simple__grid" aria-hidden="true">
-                    
-                    <div class="wc-countdown-simple__unit" data-unit="days">
-                        <span class="fc-val">00</span>
-                        <span class="fc-label">DAYS</span>
-                    </div>
-
-                    <div class="wc-countdown-simple__unit" data-unit="hours">
-                        <span class="fc-val">00</span>
-                        <span class="fc-label">HOURS</span>
-                    </div>
-
-                    <div class="wc-countdown-simple__unit" data-unit="mins">
-                        <span class="fc-val">00</span>
-                        <span class="fc-label">MINS</span>
-                    </div>
-
-                    <div class="wc-countdown-simple__unit" data-unit="secs">
-                        <span class="fc-val">00</span>
-                        <span class="fc-label">SECS</span>
-                    </div>
-
+            <div class="flex gap-1 sm:gap-4 items-center countdown-grid" id="countdown-container">
+                <div class="flex flex-col items-center countdown-item">
+                    <div class="dymo-label text-3xl sm:text-4xl font-timer py-3 px-4 min-w-[70px] text-center" id="days">00</div>
+                    <span class="font-headline font-black text-[10px] text-white mt-1">DYS</span>
                 </div>
-                <span class="fc-sr-only" id="fcLive" aria-live="polite" aria-atomic="true"></span>
-            </div>
-
-
-        </section>
-
-        <!-- ── INFO ROW ──────────────────────────────────────────── -->
-        <section class="wc-info" id="wc-info" aria-label="Event details">
-
-            <div class="wc-info__grid">
-
-            <div class="wc-welcome-note reveal">
-                <h2 class="wc-welcome__title">Welcome!</h2>
-                <p class="wc-welcome__text">
-                    We warmly invite you to join our wedding expo day with us in the beautiful city of Amman, Jordan.<br>
-                    We look forward to sharing this unforgettable moment with our most special people.
-                </p>
-            </div>
-
-        </section>
-        
-        <!-- ── DECORATIVE BOW DIVIDER ────────────────────────────── -->
-        <div class="wc-bow-divider reveal" aria-hidden="true">
-            <img src="./vintage_bow_divider.png" alt="Decorative bow ribbon" />
-        </div>
-
-
-        <!-- ── DAY PROGRAMME SECTION ────────────────────────────── -->
-        <section class="wc-programme reveal" id="wc-programme" aria-label="Day Programme">
-            <div class="wc-programme__header">
-                <h2 class="wc-programme__script-title">Day Programme</h2>
-                <p class="wc-programme__date">14 May 2026</p>
-            </div>
-
-            <div class="wc-timeline">
-                <div class="wc-timeline__line"></div>
-
-                <div class="wc-timeline__item reveal">
-                    <div class="wc-timeline__time">14:00</div>
-                    <div class="wc-timeline__content">
-                        <h4 class="wc-timeline__title">ARRIVAL</h4>
-                    </div>
+                <span class="text-white font-black text-3xl mt-[-20px]">:</span>
+                <div class="flex flex-col items-center countdown-item">
+                    <div class="dymo-label text-3xl sm:text-4xl font-timer py-3 px-4 min-w-[70px] text-center rotate-[-3deg]" id="hours">00</div>
+                    <span class="font-headline font-black text-[10px] text-white mt-1">HRS</span>
                 </div>
-
-                <div class="wc-timeline__item reveal">
-                    <div class="wc-timeline__time">15:30</div>
-                    <div class="wc-timeline__content">
-                        <h4 class="wc-timeline__title">FASHION SHOW</h4>
-                    </div>
+                <span class="text-white font-black text-3xl mt-[-20px]">:</span>
+                <div class="flex flex-col items-center countdown-item">
+                    <div class="dymo-label text-3xl sm:text-4xl font-timer py-3 px-4 min-w-[70px] text-center rotate-[2deg]" id="minutes">00</div>
+                    <span class="font-headline font-black text-[10px] text-white mt-1">MIN</span>
                 </div>
-
-                <div class="wc-timeline__item reveal">
-                    <div class="wc-timeline__time">17:00</div>
-                    <div class="wc-timeline__content">
-                        <h4 class="wc-timeline__title">MAKEUP & HAIR STYLING SHOW</h4>
-                    </div>
+                <span class="text-white font-black text-3xl mt-[-20px]">:</span>
+                <div class="flex flex-col items-center countdown-item">
+                    <div class="dymo-label text-3xl sm:text-4xl font-timer py-3 px-4 min-w-[70px] text-center rotate-[-1deg] text-pink-500" id="seconds">00</div>
+                    <span class="font-headline font-black text-[10px] text-white mt-1">SEC</span>
                 </div>
-
-                <div class="wc-timeline__item reveal">
-                    <div class="wc-timeline__time">18:30</div>
-                    <div class="wc-timeline__content">
-                        <h4 class="wc-timeline__title">JEWELRY SHOW</h4>
-                    </div>
-                </div>
-
-                <div class="wc-timeline__item reveal">
-                    <div class="wc-timeline__time">20:00</div>
-                    <div class="wc-timeline__content">
-                        <h4 class="wc-timeline__title">ENTERTAINMENT HIGHLIGHTS</h4>
-                    </div>
-                </div>
-
-                <div class="wc-timeline__item reveal">
-                    <div class="wc-timeline__time">21:00</div>
-                    <div class="wc-timeline__content">
-                        <h4 class="wc-timeline__title">EXCLUSIVE PRIZE DRAW</h4>
-                    </div>
-                </div>
-
-                <div class="wc-timeline__item reveal">
-                    <div class="wc-timeline__time">22:00</div>
-                    <div class="wc-timeline__content">
-                        <h4 class="wc-timeline__title">COMPREHENSIVE WEDDING PACKAGES</h4>
-                        <p class="wc-timeline__sub">FOR LUCKY COUPLES</p>
-                    </div>
-                </div>
-
             </div>
         </section>
 
-        <!-- ── FLORAL DECORATIVE DIVIDER ─────────────────────────── -->
-        <section class="wc-floral-divider reveal" aria-hidden="true">
-            <img src="./vintage_floral_urn_flush.png" alt="Decorative Floral Urn Sketch">
-        </section>
-        
-        <!-- ── FEATURED HIGHLIGHT VIDEO ───────────────────────────── -->
-        <section class="wc-featured-content reveal" aria-label="Organized By">
-            <div class="wc-featured-content__image-container">
-                <img src="./IMG_5587.PNG" alt="Organized by Tamar Moda" class="wc-featured-content__img">
+        <section class="mb-32 relative py-20 px-8 min-h-[1000px] scrap-paper" id="timeline" style="background-image: url('IMG_5546.PNG'); background-size: cover; background-position: center;">
+            <h2 class="font-headline text-3xl font-black text-black text-center mb-16 sharpie-underline">THE PLAN</h2>
+            
+            <div class="timeline-line"></div>
+            <div class="timeline-heart-container">
+                <div class="timeline-heart flex justify-center" id="balloon-container">
+                    <div class="bg-red-600 text-white rounded-full p-3 shadow-[4px_4px_0px_black] border-2 border-black rotate-[-5deg]" id="balloon">
+                        <span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-32 relative z-10">
+                <div class="flex justify-start reveal-card" style="--rotation: -2deg">
+                    <div class="scrap-paper p-6 w-64 relative ml-4">
+                        <div class="absolute -top-4 left-4 w-16 h-6 scotch-tape rotate-3"></div>
+                        <h3 class="font-headline font-black text-pink-600 text-xl">9:00 PM</h3>
+                        <p class="font-body text-lg leading-snug mt-2">Pregame & Secrets. Don't be late.</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-end reveal-card" style="--rotation: 3deg">
+                    <div class="scrap-paper p-6 w-64 relative mr-4 bg-yellow-50">
+                        <div class="absolute -top-4 right-4 w-16 h-6 scotch-tape rotate-[-10deg]"></div>
+                        <h3 class="font-headline font-black text-blue-600 text-xl">11:00 PM</h3>
+                        <p class="font-body text-lg leading-snug mt-2">The Main Entrance. Duh.</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-start reveal-card" style="--rotation: -1deg">
+                    <div class="scrap-paper p-6 w-64 relative ml-4 border-dashed border-red-500">
+                        <div class="absolute -bottom-4 right-4 w-16 h-6 scotch-tape rotate-6"></div>
+                        <h3 class="font-headline font-black text-red-600 text-xl">MIDNIGHT</h3>
+                        <p class="font-body text-lg leading-snug mt-2">Chaos Ensues. No Photos Allowed.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- ── VINTAGE DIVIDER (above gallery) ───────────────────── -->
-        <div class="wc-vintage-sep reveal" aria-hidden="true">
-            <span class="wc-vintage-sep__line"></span>
-            <span class="wc-vintage-sep__ornament">❧ ✦ ❧</span>
-            <span class="wc-vintage-sep__line"></span>
-        </div>
+        <!-- 4. Memories / Gallery Section -->
+        <section class="mb-32">
+            <h2 class="font-headline text-3xl font-black text-white text-center mb-12 sharpie-underline">MEMORIES</h2>
+            
+            <!-- Horizontal Scroll Container -->
+            <div class="no-scrollbar memories-scroll-container">
+                <div class="memories-scroll-inner">
+                    <!-- Polaroid 1 -->
+                    <div class="polaroid-item flex-shrink-0 scrap-paper p-3 pb-12 w-64 transform rotate-[-3deg] relative bg-white shadow-[10px_10px_0px_rgba(0,0,0,0.5)] snap-center">
+                        <div class="absolute -top-4 -left-4 w-16 h-6 scotch-tape rotate-[-15deg]"></div>
+                        <img src="Screenshot 2026-04-27 070824.png" class="w-full h-48 object-cover border-2 border-black/10">
+                        <p class="absolute bottom-3 left-0 w-full text-center font-handwriting text-xl text-blue-800 font-bold">The OG Crew 💅</p>
+                    </div>
 
-        <!-- ── HORIZONTAL SWIPE GALLERY ────────────────────────────── -->
-        <section class="wc-gallery reveal" aria-label="Swipeable Image Gallery">
-            <div class="wc-gallery__track">
-                <!-- Slide 1: Wide Stage Setup (Added back as first) -->
-                <div class="wc-gallery__slide">
-                    <img src="./Gemini_Generated_Image_3708jw3708jw3708.png" alt="Grand Venue Stage Setup" loading="lazy">
-                </div>
-                <!-- Slide 2: Venue Detail 1 -->
-                <div class="wc-gallery__slide">
-                    <img src="./IMG_5580.PNG" alt="Wedding Expo Venue Detail" loading="lazy">
-                </div>
-                <!-- Slide 3: Venue Detail 2 -->
-                <div class="wc-gallery__slide">
-                    <img src="./IMG_6862.PNG" alt="Wedding Expo Interior" loading="lazy">
-                </div>
-            </div>
-            <!-- Swipe hint -->
-            <div class="wc-gallery__hint">
-                <p>SWIPE TO EXPLORE</p>
-                <div class="wc-gallery__arrows">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                    <!-- Polaroid 2 -->
+                    <div class="polaroid-item flex-shrink-0 scrap-paper p-3 pb-12 w-64 transform rotate-[2deg] relative bg-white shadow-[10px_10px_0px_rgba(0,0,0,0.5)] snap-center">
+                        <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-20 h-6 scotch-tape"></div>
+                        <img src="Screenshot 2026-04-27 070933.png" class="w-full h-48 object-cover border-2 border-black/10">
+                        <p class="absolute bottom-3 left-0 w-full text-center font-handwriting text-xl text-blue-800 font-bold">Main Character Energy ✨</p>
+                    </div>
+
+                    <!-- Polaroid 3 -->
+                    <div class="polaroid-item flex-shrink-0 scrap-paper p-3 pb-12 w-64 transform rotate-[-1deg] relative bg-white shadow-[10px_10px_0px_rgba(0,0,0,0.5)] snap-center">
+                        <div class="absolute -bottom-4 right-4 w-16 h-6 scotch-tape rotate-12"></div>
+                        <img src="Screenshot 2026-04-27 071022.png" class="w-full h-48 object-cover border-2 border-black/10">
+                        <p class="absolute bottom-3 left-0 w-full text-center font-handwriting text-xl text-blue-800 font-bold">Iconic. Period. 💅</p>
+                    </div>
                 </div>
             </div>
         </section>
-
-        <!-- ── VINTAGE DIVIDER (below gallery) ───────────────────── -->
-        <div class="wc-vintage-sep reveal" aria-hidden="true">
-            <span class="wc-vintage-sep__line"></span>
-            <span class="wc-vintage-sep__ornament">❧ ✦ ❧</span>
-            <span class="wc-vintage-sep__line"></span>
-        </div>
-
-        <!-- ── STICKY PROPOSAL ──────────────────────────────────── -->
-        <div class="wc-proposal-wrapper" id="proposalWrapper">
-            <!-- Bulletproof Interaction Sensors -->
-            <div class="wc-proposal-sensor" data-index="0" style="top: 0%"></div>
-            <div class="wc-proposal-sensor" data-index="1" style="top: 25%"></div>
-            <div class="wc-proposal-sensor" data-index="2" style="top: 50%"></div>
-            <div class="wc-proposal-sensor" data-index="3" style="top: 75%"></div>
-
-            <section class="wc-proposal-sticky" id="proposalSticky" aria-label="Wedding proposal chapters">
-
-                <!-- Side Progress Nav -->
-                <div class="wc-proposal__nav" aria-label="Chapter progress">
-                    <span class="wc-proposal__counter" id="proposalCounter" aria-live="polite" aria-atomic="true">01&thinsp;/&thinsp;04</span>
-                    <div class="wc-proposal__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25">
-                        <div class="wc-proposal__fill" id="proposalFill"></div>
-                        <span class="wc-proposal__tick" style="top:0%"></span>
-                        <span class="wc-proposal__tick" style="top:33.33%"></span>
-                        <span class="wc-proposal__tick" style="top:66.66%"></span>
-                        <span class="wc-proposal__tick" style="top:100%"></span>
-                    </div>
+        
+        <!-- 4. Dress Code Section -->
+        <section class="mb-48 px-4 reveal-card" style="--rotation: -1deg;">
+            <h2 class="font-headline text-3xl font-black text-center mb-8 bg-black text-white inline-block px-4 py-1 transform rotate-2">THE LOOKBOOK</h2>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Look 1: Pink Scrap -->
+                <div class="scrap-paper p-4 bg-pink-100 transform rotate-[-3deg] shadow-[5px_5px_0px_black] relative">
+                    <div class="absolute -top-3 left-4 w-12 h-6 scotch-tape rotate-12"></div>
+                    <div class="text-4xl text-center mb-2">👗</div>
+                    <p class="font-handwriting text-lg text-pink-700 leading-tight">On Wednesdays we wear pink! (Duh)</p>
                 </div>
 
-                <!-- Scroll Down Hint (Added to guide users) -->
-                <div class="wc-proposal__scroll-hint" id="proposalScrollHint">
-                    <span class="wc-proposal__scroll-text">CONTINUE SCROLLING</span>
-                    <div class="wc-proposal__scroll-arrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <polyline points="7 13 12 18 17 13" />
-                            <polyline points="7 6 12 11 17 6" />
-                        </svg>
-                    </div>
+                <!-- Look 2: Sparkle Scrap -->
+                <div class="scrap-paper p-4 bg-white transform rotate-[4deg] shadow-[5px_5px_0px_black] relative">
+                    <div class="absolute -top-2 right-4 w-10 h-5 scotch-tape rotate-[-8deg]"></div>
+                    <div class="text-4xl text-center mb-2">✨</div>
+                    <p class="font-handwriting text-lg text-blue-700 leading-tight">Must be shiny enough to blind them.</p>
                 </div>
 
-                <!-- ── Block 1: The Opening (image-1) ── -->
-                <div class="wc-proposal__block active" data-index="0" role="group" aria-label="Chapter 1 of 5: The Opening">
-                    <div class="wc-proposal__inner">
-
-                        <span class="wc-proposal__chapter-label">Chapter 01</span>
-                        <h2 class="wc-proposal__headline">The Wedding Gallery <em>2026</em></h2>
-                        <p class="wc-proposal__script-line">by tamara abdullah</p>
-                        <div class="wc-divider wc-proposal__divider">
-                            <span class="wc-divider__line"></span>
-                            <span class="wc-divider__gem">✦</span>
-                            <span class="wc-divider__line"></span>
-                        </div>
-                        <p class="wc-proposal__subtitle">In collaboration with the Princess Taghrid Institute for Development and Training</p>
-                    </div>
-                </div>
-
-                <!-- ── Block 2: About Us (image-1 from latest) ── -->
-                <div class="wc-proposal__block" data-index="1" role="group" aria-label="Chapter 2 of 5: About Us">
-                    <div class="wc-proposal__inner">
-
-                        <span class="wc-proposal__chapter-label">Chapter 02</span>
-                        <div class="wc-proposal__gem-title">
-                            <svg class="wc-proposal__gem-icon" viewBox="0 0 30 22" aria-hidden="true">
-                                <polygon points="5,9 25,9 15,1" fill="currentColor"/>
-                                <polygon points="0,9 30,9 15,21" fill="currentColor" opacity="0.75"/>
-                            </svg>
-                            <p>About Us:</p>
-                        </div>
-                        <p class="wc-proposal__body-text">
-                            The Wedding Gallery is a premier event platform organized by a professional team with extensive expertise in large-scale exhibitions, strategic partnerships, and luxury brand activation, with a dedicated focus on operational excellence and commercial impact.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- ── Block 3: Exhibition Overview ── -->
-                <div class="wc-proposal__block" data-index="2" role="group" aria-label="Chapter 3 of 5: Exhibition Overview">
-                    <div class="wc-proposal__inner">
-
-                        <span class="wc-proposal__chapter-label">Chapter 03</span>
-                        <div class="wc-proposal__gem-title">
-                            <svg class="wc-proposal__gem-icon" viewBox="0 0 30 22" aria-hidden="true">
-                                <polygon points="5,9 25,9 15,1" fill="currentColor"/>
-                                <polygon points="0,9 30,9 15,21" fill="currentColor" opacity="0.75"/>
-                            </svg>
-                            <p>Exhibition Overview:</p>
-                        </div>
-                        <p class="wc-proposal__body-text">
-                            The Wedding Gallery 2026 is the ultimate destination for bridal excellence, bringing together the most prestigious names in bridal fashion, event planning, beauty, décor, and luxury services under one roof.
-                        </p>
-                        <p class="wc-proposal__body-text">
-                            Designed to inspire and connect future couples, the exhibition offers a unique experience that blends creativity with professional expertise. It features interactive displays, high-end fashion shows, and specialized exhibit halls.
-                        </p>
-                        <div class="wc-proposal__rings" aria-hidden="true">
-                            <div class="wc-proposal__ring wc-proposal__ring--a"></div>
-                            <div class="wc-proposal__ring wc-proposal__ring--b">
-                                <span class="wc-proposal__ring-mono">WG</span>
-                            </div>
+                <!-- Look 3: Accessories -->
+                <div class="col-span-2 scrap-paper p-4 transform rotate-[1deg] shadow-[5px_5px_0px_black] relative mt-4">
+                    <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-20 h-6 scotch-tape rotate-[-2deg]"></div>
+                    <div class="flex items-center gap-4">
+                        <div class="text-5xl">🕶️</div>
+                        <div>
+                            <h4 class="font-headline font-black text-sm uppercase italic">Final Law:</h4>
+                            <p class="font-handwriting text-xl text-black">Mean Girls Glam. Y2K realness only. XOXO</p>
                         </div>
                     </div>
                 </div>
+            </div>
+    </section>
 
-                <!-- ── Block 4: Your Experience ── -->
-                <div class="wc-proposal__block" data-index="3" role="group" aria-label="Chapter 4 of 5: Your Experience">
-                    <div class="wc-proposal__inner">
-
-                        <span class="wc-proposal__chapter-label">Chapter 04</span>
-                        <p class="wc-proposal__experience-label">Your Experience:</p>
-                        <h3 class="wc-proposal__headline wc-proposal__headline--sm">The Experience</h3>
-                        <div class="wc-divider wc-proposal__divider">
-                            <span class="wc-divider__line"></span>
-                            <span class="wc-divider__gem">✦</span>
-                            <span class="wc-divider__line"></span>
-                        </div>
-                        <p class="wc-proposal__body-text">
-                            An extraordinary journey where art meets elegance and distinction. Every detail is meticulously crafted to inspire you and turn the wedding of your dreams into a refined reality.
-                        </p>
-                    </div>
-                </div>
-
-
-            </section>
-        </div><!-- /wc-proposal-wrapper -->
-
-
-
-        <!-- ── LOCATION MAP SECTION ──────────────────────────────── -->
-        <section class="wc-location" id="wc-location" aria-label="Event Location">
-            <div class="wc-location__vintage-card reveal">
-                <!-- Top Illustration -->
-                <img src="./vintage_estate_sketch.png" alt="Grand Views Estate" class="wc-location__sketch" loading="lazy" />
+        <!-- New Video Section: THE VIBE -->
+        <section class="mb-48 flex justify-center px-4 reveal-card" style="--rotation: 2deg;">
+            <div class="scrap-paper p-4 w-full max-w-sm relative shadow-[8px_8px_0px_black] bg-white transform rotate-1">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 scotch-tape rotate-[-3deg] z-10"></div>
+                <h2 class="font-headline text-2xl font-black mb-4 text-center border-b-2 border-black pb-2 text-pink-600">THE VIBE ✨</h2>
                 
-                <!-- Title -->
-                <h3 class="wc-location__script-title">Grand Views</h3>
-                
-                <hr class="wc-location__separator" />
-                
-                <!-- Date & Time -->
-                <div class="wc-location__datetime">
-                    <span>12 July 2026</span>
-                    <span class="wc-location__dot"></span>
-                    <span>14:00</span>
-                </div>
-                
-                <hr class="wc-location__separator-small" />
-                
-                <!-- Address -->
-                <div class="wc-location__address-block">
-                    <p class="wc-location__address-line">Right Service Rd,</p>
-                    <p class="wc-location__address-region">Amman &ndash; Jordan</p>
-                </div>
-                
-                <!-- Map Embed -->
-                <div class="wc-location__map-container">
-                    <iframe class="wc-location__map-iframe" src="https://maps.google.com/maps?q=Grand+views,+Right+Service+Rd,+Amman&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-                
-                <!-- Bottom Action -->
-                <div class="wc-location__bottom-action">
-                    <a href="https://www.google.com/maps/dir/32.0467564,35.8857946/Grand+views,+Right+Service+Rd,+Amman/@31.9256999,35.6808828,10.6z/data=!4m10!4m9!1m1!4e1!1m5!1m1!1s0x151ca9d0f5a809ab:0x1d1c4f7a2a85c08c!2m2!1d35.9144792!2d31.8025213!3e0?entry=ttu&g_ep=EgoyMDI2MDQxNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="wc-location__bottom-nav-btn wc-location__pin" aria-label="Open in Maps">
-                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                        </svg>
-                    </a>
+                <div class="border-4 border-black relative bg-black aspect-[9/16] overflow-hidden">
+                    <video class="w-full h-full object-cover" autoplay loop muted playsinline>
+                        <source src="IMG_5544 (2).MP4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
         </section>
 
-        <!-- ── RSVP ─────────────────────────────────────────────── -->
-        <section class="wc-rsvp" id="wc-rsvp" aria-label="RSVP">
-            <!-- Decorative Frame Background -->
-            <img src="./frame.PNG" class="wc-rsvp__frame" alt="" aria-hidden="true">
+        <section class="mb-64 flex flex-col items-center">
+            <!-- Combined Venue & Map Card -->
+            <div class="w-full max-w-md transform rotate-[-1deg] scrap-paper p-4 relative shadow-[10px_10px_0px_black]">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 scotch-tape rotate-[-2deg]"></div>
+                <div class="absolute -bottom-4 right-4 w-16 h-6 scotch-tape rotate-12"></div>
+                
+                <div class="mb-4">
+                    <h3 class="font-headline text-2xl font-black mb-1 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-red-600">location_on</span>
+                        THE VENUE
+                    </h3>
+                    <p class="font-handwriting text-2xl text-blue-900 font-bold">Regina's House (The Plastic's HQ)</p>
+                </div>
 
-            <div class="wc-section-header reveal">
-                <p class="wc-section-header__eyebrow">We Hope to See You</p>
-                <h2 class="wc-section-header__title">Kindly Reply</h2>
+                <div class="border-2 border-black overflow-hidden">
+                    <iframe 
+                        class="w-full h-64 grayscale-[0.2] contrast-125"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3405.3465135111!2d34.810619!3d31.405786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDI0JzIwLjgiTiAzNMKwNDgnMzguMiJF!5e0!3m2!1sen!2s!4v1714188000000!5m2!1sen!2s" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+                
+                <div class="mt-3 text-center">
+                    <a href="https://maps.app.goo.gl/QNwhXw3ThZEbkdNEA" target="_blank" class="text-xs font-black uppercase text-pink-600 hover:underline">View larger map ↗️</a>
+                </div>
             </div>
-            <div class="wc-rsvp__card reveal" id="rsvpCard">
-                <form class="wc-rsvp__form" id="rsvpForm" novalidate>
-                    <!-- Web3Forms Access Key -->
-                    <input type="hidden" name="access_key" value="33896cd6-cbf2-487a-8468-4751525b5a62">
-                    
-                    <!-- Hidden input to store the Accept/Decline choice -->
-                    <input type="hidden" name="attendance" id="rsvpAttendance" value="accept">
-                    <div class="wc-form-group">
-                        <label class="wc-form-group__label" for="rsvpName">Your Full Name</label>
-                        <input class="wc-form-group__input" type="text" id="rsvpName" name="name" placeholder="Enter your name" autocomplete="name" required>
-                    </div>
-                    <div class="wc-form-group">
-                        <label class="wc-form-group__label" for="rsvpPhone">Phone Number</label>
-                        <input class="wc-form-group__input" type="tel" id="rsvpPhone" name="phone" placeholder="e.g. +962 7X XXX XXXX" autocomplete="tel" required>
-                    </div>
-                    <div class="wc-form-group">
-                        <label class="wc-form-group__label" for="rsvpGuests">Number of Guests</label>
-                        <select class="wc-form-group__input wc-form-group__select" id="rsvpGuests" name="guests">
-                            <option value="1">1 Guest</option>
-                            <option value="2" selected>2 Guests</option>
-                            <option value="3">3 Guests</option>
-                            <option value="4">4+ Guests</option>
-                        </select>
-                    </div>
-                    <div class="wc-form-group">
-                        <label class="wc-form-group__label">Will You Join Us?</label>
-                        <div class="wc-rsvp__toggle" role="group" aria-label="Attendance choice">
-                            <button type="button" class="wc-rsvp__toggle-btn active" data-choice="accept" aria-pressed="true">Joyfully Accept</button>
-                            <button type="button" class="wc-rsvp__toggle-btn" data-choice="decline" aria-pressed="false">Regretfully Decline</button>
-                        </div>
-                    </div>
-                    <div class="wc-form-group">
-                        <label class="wc-form-group__label" for="rsvpDietary">Dietary Requirements</label>
-                        <textarea class="wc-form-group__input wc-form-group__textarea" id="rsvpDietary" name="dietary" placeholder="Any special dietary needs or notes..." rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="wc-btn-submit" aria-label="Send your RSVP">
-                        <span>SEND</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-                        </svg>
-                    </button>
-                </form>
+        </section>
 
-                <!-- NEW: Integrated Success Card -->
-                <div class="wc-rsvp__success-card" id="rsvpSuccessCard" hidden>
-                    <div class="wc-outro__sketch-container">
-                        <img src="./vintage_estate_sketch.png" alt="Grand Views Sketch" class="wc-outro__sketch">
-                    </div>
-                    
-                    <div class="wc-outro__text-block">
-                        <h2 class="wc-outro__title">Thank You</h2>
-                        <p class="wc-outro__subtitle">We are delighted to have you with us!</p>
-                        <p class="wc-outro__message">Your response has been received. We look forward to sharing this unforgettable day together.</p>
-                    </div>
+        <!-- 6. Wishes Wall Section -->
+        <section class="mb-48 flex justify-center px-4">
+            <div id="wishes-container" class="relative">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 scotch-tape rotate-[-2deg]"></div>
+                <h2 class="font-headline text-2xl font-black mb-6 text-center border-b-2 border-black pb-2">THE BURN LIST (WISHES)</h2>
+                <div id="wishes-list" class="space-y-4">
+                    <!-- Wishes will be dynamically added here -->
+                </div>
+            </div>
+        </section>
 
-                    <div class="wc-outro__actions">
-                        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Wedding+Gallery+2026&dates=20260712T150000Z/20260712T210000Z&details=Thank+you+for+joining+us+for+our+special+day!+We+look+forward+to+celebrating+with+you.&location=Grand+Views,+Amman,+Jordan&sf=true&output=xml" 
-                           target="_blank" 
-                           class="wc-outro__btn wc-outro__btn--gold">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                            <span>Add to Calendar</span>
-                        </a>
+        <!-- Combined RSVP & Frame Section -->
+        <section class="mb-32 flex justify-center px-4 reveal-card" style="--rotation: -2deg;">
+            <div class="scrap-paper p-3 pb-12 w-full max-w-md relative bg-white shadow-[10px_10px_0px_rgba(0,0,0,0.5)] transform rotate-1">
+                <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-20 h-6 scotch-tape z-20"></div>
+                
+                <!-- The Background Frame Image -->
+                <img src="IMG_5548 (2).PNG" class="w-full h-auto object-cover border-2 border-black/10 opacity-90">
+                
+                <!-- The RSVP Card Layered On Top -->
+                <div class="absolute inset-0 flex items-center justify-center p-6 z-10 pt-10">
+                    <div class="bg-white p-6 w-11/12 max-w-sm relative shadow-[8px_8px_0px_black] border-2 border-black transform rotate-[-2deg]" id="rsvp-card" style="background-image: repeating-linear-gradient(transparent, transparent 27px, #93c5fd 28px); background-position: 0 10px;">
+                        <div class="absolute top-0 left-0 w-full h-3 bg-[#E05297]" style="clip-path: polygon(0 0, 5% 100%, 10% 0, 15% 100%, 20% 0, 25% 100%, 30% 0, 35% 100%, 40% 0, 45% 100%, 50% 0, 55% 100%, 60% 0, 65% 100%, 70% 0, 75% 100%, 80% 0, 85% 100%, 90% 0, 95% 100%, 100% 0);"></div>
                         
-                        <a href="https://www.google.com/maps/search/?api=1&query=Grand+Views+Amman+Jordan" 
-                           target="_blank" 
-                           class="wc-outro__btn wc-outro__btn--outline">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                            <span>Get Directions</span>
-                        </a>
+                        <h3 class="font-headline text-2xl font-black mb-4 text-center mt-2">RSVP OR ELSE</h3>
+                        
+                        <form class="space-y-4" id="rsvpForm">
+                            <div>
+                                <label class="block font-headline font-black text-xs uppercase tracking-widest mb-1">Who are you?</label>
+                                <input type="text" id="guestName" placeholder="Your Name Here..." required class="w-full bg-transparent border-b-2 border-black font-handwriting text-lg py-1 focus:outline-none focus:border-pink-600 placeholder:opacity-30">
+                            </div>
+                            
+                            <div>
+                                <label class="block font-headline font-black text-xs uppercase tracking-widest mb-1">Birthday Wishes?</label>
+                                <textarea id="guestWish" placeholder="Write something sweet (or spicy)..." rows="2" required class="w-full bg-transparent border-2 border-black p-2 font-handwriting text-lg focus:outline-none focus:border-pink-600 placeholder:opacity-30"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full bg-black text-white font-headline font-black py-3 px-4 rotate-[-1deg] hover:bg-pink-600 transition-all shadow-[4px_4px_0px_#FF007F] active:translate-y-1 active:shadow-none text-sm">
+                                COUNT ME IN
+                            </button>
+                        </form>
                     </div>
                 </div>
+
+                <p class="absolute bottom-3 left-0 w-full text-center font-handwriting text-xl text-pink-600 font-bold z-20">See you there, losers! 💋</p>
             </div>
         </section>
 
-        <!-- ── FOOTER ────────────────────────────────────────────── -->
-        <footer class="wc-footer">
-            <div class="wc-divider reveal">
-                <span class="wc-divider__line"></span>
-                <span class="wc-divider__gem">✦</span>
-                <span class="wc-divider__line"></span>
-            </div>
-            <p class="wc-footer__monogram reveal">WE</p>
-            <p class="wc-footer__tagline reveal">With Love &amp; Gratitude</p>
-            <p class="wc-footer__date reveal">July 12, 2026</p>
-        </footer>
+    </main>
 
-    </div><!-- /main-content -->
+    <script>
+        const eventDate = new Date('Aug 16, 2024 21:00:00').getTime();
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minsEl = document.getElementById('minutes');
+        const secsEl = document.getElementById('seconds');
 
-    <!-- ── BACKGROUND AUDIO & CONTROLS ─────────────────────── -->
-    <audio id="bg-music" src="./IMG_5280 (1).mp4" preload="auto"></audio>
-    
-    <button id="bg-music-toggle" class="wc-music-btn" aria-label="Mute background music">
-        <!-- SVG Speaker Icon -->
-        <svg class="wc-music-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-        </svg>
-        <!-- SVG Muted Icon (Initially hidden) -->
-        <svg class="wc-music-icon-muted hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <line x1="23" y1="9" x2="17" y2="15"></line>
-            <line x1="17" y1="9" x2="23" y2="15"></line>
-        </svg>
-    </button>
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = eventDate - now;
 
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+            if (daysEl) daysEl.innerText = String(Math.abs(days)).padStart(2, '0');
+            if (hoursEl) hoursEl.innerText = String(Math.abs(hours)).padStart(2, '0');
+            if (minsEl) minsEl.innerText = String(Math.abs(minutes)).padStart(2, '0');
+            if (secsEl) secsEl.innerText = String(Math.abs(seconds)).padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
 
-    <script src="main.js?v=3.3"></script>
+        const cards = document.querySelectorAll('.reveal-card');
+        window.addEventListener('scroll', () => {
+            const windowHeight = window.innerHeight;
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < windowHeight * 0.75) {
+                    card.classList.add('visible');
+                }
+            });
+        });
+        window.dispatchEvent(new Event('scroll'));
 
+        // Music Player Logic
+        const bgMusic = document.getElementById('bgMusic');
+        const playBtn = document.getElementById('playBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const playIcon = document.getElementById('playIcon');
+        const muteIcon = document.getElementById('muteIcon');
+        const musicStatus = document.getElementById('musicStatus');
+
+        playBtn.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play().catch(error => {
+                    console.error("Music play failed:", error);
+                    alert("Click anywhere on the page first, then try the play button!");
+                });
+                playIcon.innerText = 'pause';
+                musicStatus.innerText = 'PLAYING...';
+            } else {
+                bgMusic.pause();
+                playIcon.innerText = 'play_arrow';
+                musicStatus.innerText = 'PAUSED';
+            }
+        });
+
+        muteBtn.addEventListener('click', () => {
+            bgMusic.muted = !bgMusic.muted;
+            muteIcon.innerText = bgMusic.muted ? 'volume_off' : 'volume_up';
+        });
+
+        // Wishes Wall Logic
+        const rsvpForm = document.getElementById('rsvpForm');
+        const wishesList = document.getElementById('wishes-list');
+        
+        // Clear test wishes once (uncomment if you want to wipe manually)
+        // localStorage.removeItem('sophie_wishes');
+
+        // Load existing wishes from localStorage
+        let savedWishes = JSON.parse(localStorage.getItem('sophie_wishes') || '[]');
+        savedWishes.forEach(addWishToWall);
+
+        rsvpForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('guestName').value;
+            const wish = document.getElementById('guestWish').value;
+            
+            const newWish = { name, wish };
+            
+            // Add to UI
+            addWishToWall(newWish);
+            
+            // Save to LocalStorage
+            savedWishes.push(newWish);
+            localStorage.setItem('sophie_wishes', JSON.stringify(savedWishes));
+            
+            rsvpForm.reset();
+            alert("YOUR WISH IS PINNED! 💖");
+        });
+
+        function addWishToWall(data) {
+            const div = document.createElement('div');
+            div.className = 'wish-entry font-handwriting';
+            div.innerHTML = `
+                <p class="text-xs uppercase font-headline font-black text-pink-600 mb-1">${data.name} says...</p>
+                <p class="text-xl leading-tight text-blue-900">"${data.wish}"</p>
+            `;
+            wishesList.prepend(div);
+        }
+
+        // Intro Video & Transition Logic
+        const introOverlay = document.getElementById('intro-overlay');
+        const introVideo = document.getElementById('introVideo');
+        const startBtn = document.getElementById('startIntro');
+        let introOpened = false;
+
+        // The Micro-Loop & Fade Out Logic
+        let fadeStarted = false;
+        introVideo.addEventListener('timeupdate', () => {
+            if (!introOpened) {
+                if (introVideo.currentTime >= 0.7) {
+                    introVideo.currentTime = 0;
+                }
+            } else {
+                // Freeze the video on the final frame right before it ends to prevent it from flashing black!
+                if (introVideo.duration && introVideo.currentTime >= introVideo.duration - 0.1 && !fadeStarted) {
+                    fadeStarted = true;
+                    introVideo.pause(); // FREEZE THE FRAME
+                    introOverlay.classList.add('fade-out'); // Start the smooth CSS fade
+                    
+                    // Auto-play background music after intro for immersion
+                    if (bgMusic.paused) {
+                        bgMusic.play().catch(() => console.log("Auto-play blocked, user must click play."));
+                        playIcon.innerText = 'pause';
+                        musicStatus.innerText = 'PLAYING...';
+                    }
+                    
+                    // Remove from DOM after fade to prevent blocking clicks
+                    setTimeout(() => introOverlay.remove(), 1000); 
+                }
+            }
+        });
+
+        startBtn.addEventListener('click', () => {
+            startBtn.style.display = 'none';
+            introOpened = true; // Break the micro-loop
+            introVideo.currentTime = 1.7; // Fast-forward 1 second past the loop to instantly start opening!
+            introVideo.muted = false; // Unmute in case the envelope opening has sound
+            introVideo.play();
+        });
+
+        // Mobile Heart Scroll Sync
+        const timeline = document.getElementById('timeline');
+        const balloonContainer = document.getElementById('balloon-container');
+        
+        window.addEventListener('scroll', () => {
+            const timelineRect = timeline.getBoundingClientRect();
+            const timelineTop = timelineRect.top;
+            const timelineHeight = timelineRect.height;
+            
+            // If the timeline is in view
+            if (timelineTop < window.innerHeight && timelineTop + timelineHeight > 0) {
+                // Calculate how much to move the heart (keep it centered in viewport)
+                let newTop = Math.min(Math.max(window.innerHeight / 2 - timelineTop, 50), timelineHeight - 100);
+                balloonContainer.style.top = newTop + 'px';
+            }
+        });
+
+        // Swipe Assist for Memories
+        const scrollContainer = document.querySelector('.memories-scroll-container');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        scrollContainer.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startX = e.touches[0].pageX - scrollContainer.offsetLeft;
+            scrollLeft = scrollContainer.scrollLeft;
+        });
+
+        scrollContainer.addEventListener('touchend', () => {
+            isDown = false;
+        });
+
+        scrollContainer.addEventListener('touchmove', (e) => {
+            if(!isDown) return;
+            e.preventDefault();
+            const x = e.touches[0].pageX - scrollContainer.offsetLeft;
+            const walk = (x - startX) * 2; // Scroll speed
+            scrollContainer.scrollLeft = scrollLeft - walk;
+        });
+    </script>
 </body>
 </html>
